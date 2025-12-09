@@ -12,13 +12,12 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v4
 
-      # Build Docker image (postal-search-api)
+      # Build Docker image using the project's root directory
       - name: Build Docker image
         run: |
           docker build \
             -t ghcr.io/${{ github.repository_owner }}/postalsearchapi:latest \
-            -f PostalSearchApi/Dockerfile \
-            PostalSearchApi
+            .
 
       # Login to GitHub Container Registry
       - name: Log in to GitHub Container Registry
@@ -28,7 +27,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # Push the Docker image
+      # Push Docker image to GHCR
       - name: Push Docker image
         run: |
           docker push ghcr.io/${{ github.repository_owner }}/postalsearchapi:latest
